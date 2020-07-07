@@ -1,0 +1,50 @@
+<WrappedLabel@Label>:
+    size_hint_y: None
+    height: self.texture_size[1] +(self.texture_size[1]/2)
+    markup: True
+    color:0, 255, 255, 1
+    font_name: 'Satisfy.ttf'
+    font_size: '20sp'
+<Quiz>:
+    name:'quiz'
+    orientation: 'vertical'
+    canvas.before:
+        Color:
+            rgba: (1,1,1,1)
+        Rectangle:
+            pos:self.pos
+            size:self.size
+    ScreenManager:
+        id:scrn_mgr
+        Screen:
+            FloatLayout:
+                orientation: 'vertical'
+                canvas.before:
+                    Color:
+                        rgba: rgba('#0e1574ff')
+                    Triangle:
+                        points: [0,self.size[1],self.size[0],self.size[1],0,self.size[1]-(.4*self.size[1])]
+                    Color:
+                        rgba: rgba('#0e1574c8')
+                    Triangle:
+                        points: [0,self.size[1],self.size[0],self.size[1],self.size[0],self.size[1]-(.4*self.size[1])]
+                Widget:
+                    size_hint_y: .25
+                MDLabel:
+                    font_name:"Alike-Regular.ttf"
+                    text: "Rules and Regulation:"
+                    font_size: min(root.height, root.width)/10 #if height is 50 the font size becomes 5
+                    markup:True
+                MDLabel:
+                    font_name:"Alike-Regular.ttf"
+                    text: "1.App will be given 20 seconds for each question to the user."
+                    font_size: 5
+                    markup:True
+                MDLabel:
+                    font_name:"Alike-Regular.ttf"
+                    text: "2.Two marks will be awarded for correct answers."
+                    markup:True
+                MDLabel:
+                    font_name:"Alike-Regular.ttf"
+                    text: "3.There is no negative marking for incorrect response."
+                    markup:True

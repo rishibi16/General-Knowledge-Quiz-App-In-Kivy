@@ -1,0 +1,707 @@
+#:import RiseInTransition kivy.uix.screenmanager.RiseInTransition
+#:import Clock kivy.clock.Clock
+#:import rgba kivy.utils.rgba
+#:import mtx kivy.metrics
+#:import COLOR kivy.utils.get_color_from_hex
+#:set RED "#F94A69"
+#:set GREEN "#06A5AB"
+#:set AQUA "#00FFFF"
+#:set BLUE "#0000FF"
+<WrappedLabel@Label>:
+    size_hint_y: None
+    height: self.texture_size[1] +(self.texture_size[1]/2)
+    markup: True
+    color:0, 255, 255, 1
+    font_name: 'Satisfy.ttf'
+    font_size: '20sp'
+<KivyTutorRoot>:
+    orientation: 'vertical'
+    ActionBar:
+        ActionView:
+            ActionPrevious:
+                title: ""
+                with_previous: False
+            ActionOverflow:
+                ActionButton:
+                    text: "Settings"
+                    on_press: app.open_settings()
+<HomeScreen>:
+    orientation: 'vertical'
+    canvas.before:
+        Color:
+            rgba: (1,1,1,1)
+        Rectangle:
+            pos:self.pos
+            size:self.size
+    ScreenManager:
+        Screen:
+            FloatLayout:
+                orientation: 'vertical'
+                padding:25
+                spacing:25
+                canvas.before:
+                    Color:
+                        rgba: rgba('#0e1574ff')
+                    Triangle:
+                        points: [0,self.size[1],self.size[0],self.size[1],0,self.size[1]-(.4*self.size[1])]
+                    Color:
+                        rgba: rgba('#0e1574c8')
+                    Triangle:
+                        points: [0,self.size[1],self.size[0],self.size[1],self.size[0],self.size[1]-(.4*self.size[1])]
+                Widget:
+                    size_hint_y: .25
+                WrappedLabel:
+                    text: "[b]Are You Ready To Test Your Knowledge ?[/b]"
+                    pos_hint: {"center_x": .5, "center_y": .6}
+                    font_size: min(root.height, root.width)/20 #if height is 50 the font size becomes 5
+                    markup:True
+                MDFillRoundFlatIconButton:
+                    icon:"play-circle-outline"
+                    size_hint: .5, None
+                    pos_hint: {"center_x": .5, "center_y": .3}
+                    border: (3, 3, 3, 3)
+                    width: dp(350)
+                    halign: 'center'
+                    md_bg_color: 0, 1, 0, 1
+                    text_color: 1,1,1,1
+                    bold: True    
+                    text:"PLAY NOW!"
+                    on_release: root.manager.current = 'signin'
+<SigninWindow>:
+    name:'signin'
+    last_name_text_input: last_name
+    orientation: 'vertical'
+    canvas.before:
+        Color:
+            rgba: (1,1,1,1)
+        Rectangle:
+            pos:self.pos
+            size:self.size
+    ScreenManager:
+        id:scrn_mgr
+        Screen:
+            BoxLayout:
+                orientation: 'vertical'
+                canvas.before:
+                    Color:
+                        rgba: rgba('#0e1574ff')
+                    Triangle:
+                        points: [0,self.size[1],self.size[0],self.size[1],0,self.size[1]-(.4*self.size[1])]
+                    Color:
+                        rgba: rgba('#0e1574c8')
+                    Triangle:
+                        points: [0,self.size[1],self.size[0],self.size[1],self.size[0],self.size[1]-(.4*self.size[1])]
+                Widget:
+                    size_hint_y: .25
+                Label:
+                    font_size: mtx.sp('134')
+                    markup:True
+                    color: rgba('#0e1574ff')
+                    size_hint_y: .3
+                BoxLayout:
+                    size_hint_y: .45
+                    orientation: 'vertical'
+                    padding: [mtx.dp(20), 0]
+                    Label:
+                        text: "USERNAME"
+                        bold: True
+                        background_color:(1,1,1,0)
+                    FlatInput:
+                        id: last_name
+                        hint_text: 'USERNAME'
+                        bold:True
+                        size_hint_y: .2
+                    Widget:
+                        size_hint_y: .3
+                    FlatButton:
+                        text: 'Next'
+                        size_hint_y: .2
+                        on_release:
+                            root.submit_surname()
+                            #root.manager.current = "game"
+                            root.manager.transition.direction = "right"
+                            app.root.get_screen('game').current_mode = 2
+                            #if button released then it calls the function
+                        canvas.before:
+                            Color:
+                                rgba: rgba('#0e1574ff')
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [30]
+<Menu@Screen>:
+    name:'other'
+    orientation: 'vertical'
+    canvas.before:
+        Color:
+            rgba: (1,1,1,1)
+        Rectangle:
+            pos:self.pos
+            size:self.size
+    ScreenManager:
+        Screen:
+            name: 'scrn'
+            BoxLayout:
+                orientation: 'vertical'
+                padding:25
+                spacing:25
+                canvas.before:
+                    Color:
+                        rgba: rgba('#00EDFF')
+                    Triangle:
+                        points: [0,self.size[1],self.size[0],self.size[1],0,self.size[1]-(.4*self.size[1])]
+                    Color:
+                        rgba: rgba('#00D8E8')
+                    Triangle:
+                        points: [0,self.size[1],self.size[0],self.size[1],self.size[0],self.size[1]-(.4*self.size[1])]
+                Widget:
+                    size_hint_y: .25
+                WrappedLabel:
+                    text: "[b]Quiz App[/b]"
+                    font_size: min(root.height, root.width)/10 #if height is 50 the font size becomes 5
+                    markup:True
+                
+                MDRectangleFlatButton:
+                    border: (2, 2, 2, 2)
+                    width: dp(300)
+                    md_bg_color: 1,1,1,0
+                    text_color: 0,0,1,1
+                    color: 0,255,255,1
+                    size_hint: .6, None
+                    pos_hint:{'center_x':.5, 'center_y':.5}
+                    bold: True
+                    halign: 'center'
+                    on_release: 
+                        root.manager.current = 'game'
+                        root.manager.transition.direction = "right"
+                    text: 'START'
+                MDRectangleFlatButton:
+                    size_hint: .6, None
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    border: (2, 2, 2, 2)
+                    width: dp(300)
+                    halign: 'center'
+                    md_bg_color: 1,1,1,0
+                    text_color: 0,0,1,1
+                    color: 0,255,255,1
+                    bold: True
+                    on_release:root.manager.current='help'
+                    text: "HELP"
+                MDRectangleFlatButton:
+                    border: (2, 2, 2, 2)
+                    width: dp(300)
+                    halign: 'center'
+                    md_bg_color: 1,1,1,0
+                    text_color: 0,0,1,1
+                    size_hint: .6, None
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    on_release:root.manager.current='about'
+                    text: "ABOUT"
+                    color: 0,255,255,1
+                    bold: True
+                MDRectangleFlatButton:
+                    border: (2, 2, 2, 2)
+                    width: dp(300)
+                    halign: 'center'
+                    md_bg_color: 1,1,1,0
+                    text_color: 0,0,1,1
+                    size_hint: .6, None
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    color: 0,255,255,1
+                    bold: True
+                    text:'UPDATE'
+                    on_release:root.update_game()
+                MDRectangleFlatButton:
+                    border: (2, 2, 2, 2)
+                    width: dp(300)
+                    halign: 'center'
+                    md_bg_color: 1,1,1,0
+                    text_color: 0,0,1,1
+                    size_hint: .6, None
+                    pos_hint:{'center_x':.5, 'center_y':.5}
+                    color: 0,255,255,1
+                    bold: True
+                    text:'QUIT'
+                    on_release: exit()
+        
+<FlatButton@Button>:
+    background_normal:''
+    background_color:(1,1,1,0)
+<FlatInput@TextInput>:
+    background_active:''
+    background_normal:''
+    background_color:(1,1,1,0)
+    canvas.before:
+        Color:
+            rgba: rgba('#0e1574ff')
+        Rectangle:
+            pos: self.pos
+            size: [self.size[0],1]
+<StartScreen>:
+    name:'other'
+    orientation: 'vertical'
+    canvas.before:
+        Color:
+            rgba: (1,1,1,1)
+        Rectangle:
+            pos:self.pos
+            size:self.size
+    ScreenManager:
+        id:scrn_mgr
+        Screen:
+            name: 'scrn_signin'
+            BoxLayout:
+                orientation: 'vertical'
+                canvas.before:
+                    Color:
+                        rgba: rgba('#0e1574ff')
+                    Triangle:
+                        points: [0,self.size[1],self.size[0],self.size[1],0,self.size[1]-(.4*self.size[1])]
+                    Color:
+                        rgba: rgba('#0e1574c8')
+                    Triangle:
+                        points: [0,self.size[1],self.size[0],self.size[1],self.size[0],self.size[1]-(.4*self.size[1])]
+                Widget:
+                    size_hint_y: .25
+                Label:
+                    font_size: mtx.sp('134')
+                    markup:True
+                    color: rgba('#0e1574ff')
+                    size_hint_y: .3
+
+                MDLabel:
+                    size_hint: 0.5, 0.15
+                    bold: True
+                    color:0,255,255,1
+                    pos_hint: {'center_x': 0.45}
+                    text: 'Start - Select a category'
+                BoxLayout:
+                    orientation: 'vertical'
+                    spacing: 25
+                    canvas.before:
+                        Color:
+                            rgba: 0, 0, 255, 1
+                        Rectangle:
+                            # self here refers to the widget i.e BoxLayout
+                            pos: self.pos
+                            size: self.size
+                    Button:
+                        background_normal: './data/normal.png'
+                        size_hint: 0.7, 1
+                        pos_hint: {'center_x': 0.5}
+                        text: 'General Knowledge'
+                        bold: True
+                        color:0,255,255,1
+                        font_size:30
+                        on_release:                      
+                            root.manager.current = 'game'
+                            app.root.get_screen('game').current_mode = 2
+                    
+                Button:
+                    size_hint: 0.5, 0.1
+                    pos_hint: {'center_x': 0.45}
+                    text: 'back'
+                    bold: True
+                    color:0,255,255,1
+                    on_release:                 
+                        root.manager.current = 'menu'
+<ActionScreen>:
+    name: "action"
+    on_enter: self.new_game()
+    
+    orientation: 'vertical'
+    canvas.before:
+        Color:
+            rgba: (1,1,1,1)
+        Rectangle:
+            pos:self.pos
+            size:self.size
+    ScreenManager:
+        id:scrn_mgr
+        Screen:
+            name: 'scrn_signin'
+            BoxLayout:
+                orientation: 'vertical'
+                canvas.before:
+                    Color:
+                        rgba: rgba('#0e1574ff')
+                    Triangle:
+                        points: [0,self.size[1],self.size[0],self.size[1],0,self.size[1]-(.4*self.size[1])]
+                    Color:
+                        rgba: rgba('#0e1574c8')
+                    Triangle:
+                        points: [0,self.size[1],self.size[0],self.size[1],self.size[0],self.size[1]-(.4*self.size[1])]
+                Widget:
+                    size_hint_y: .25
+                Label:
+                    font_size: mtx.sp('134')
+                    markup:True
+                    color: rgba('#0e1574ff')
+                    size_hint_y: .3
+
+                BoxLayout:
+                    size_hint: 1, 0.15
+                    MDLabel:
+                        id: label_1
+                        text: 'Errors: 0'
+                        color: 1,1,1,1
+                        bold: True
+                    MDLabel:
+                        id: label_2
+                        text: 'Score: 0'
+                        color: 1,1,1,1
+                        bold: True
+                    MDLabel:
+                        id:label_3
+                        text: 'Progress 1/10'
+                        color:0,255,255,1
+                        bold: True
+                    MDLabel:
+                        id:label_4
+                        text: '0'
+                        color: 1,1,1,1
+                        bold: True
+                    Button:
+                        size_hint: 0.3, 0.2
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                        background_normal: './data/normal.png'
+                        background_down: './data/down.png'
+                        text: 'BACK'
+                        bold: True
+                        color:0,255,255,1
+                        on_release:                 
+                            root.manager.current = 'menu'
+
+                Label:
+                    id: task #here this file get questions from database by using id
+                    text: ""
+                    text_size: self.width/1.1, None 
+                    font_size: 22
+                    color: 0,255,255,1
+                    bold: True
+                GridLayout:
+                    cols:2
+                    padding: 25
+
+                    Button:
+                        background_normal: './data/normal.png'
+                        background_down: './data/down.png'
+                        id: button_1
+                        text: ""
+                        bold: True
+                        color: 0,255,255,1
+                        on_release: root.check_answer(self)
+                    Button:
+                        background_normal: './data/normal.png'
+                        background_down: './data/down.png'
+                        id: button_2
+                        text: ""
+                        bold: True
+                        color: 0,255,255,1
+                        on_release: root.check_answer(self)
+                    Button:
+                        background_normal: './data/normal.png'
+                        background_down: './data/down.png'
+                        id: button_3
+                        text: ""
+                        bold: True
+                        color: 0,255,255,1
+                        on_release: root.check_answer(self)
+                    Button:
+                        background_normal: './data/normal.png'
+                        background_down: './data/down.png'
+                        id: button_4
+                        text: ""
+                        bold: True
+                        color: 0,255,255,1
+                        on_release: root.check_answer(self)
+<NextScreen>:
+    name:'other'
+    ScreenManager:
+        id:scrn_mgr
+        Screen:
+            BoxLayout:
+                orientation: 'vertical'
+                canvas.before:
+                    Color:
+                        rgba: rgba('#0e1574ff')
+                    Triangle:
+                        points: [0,self.size[1],self.size[0],self.size[1],0,self.size[1]-(.4*self.size[1])]
+                    Color:
+                        rgba: rgba('#0e1574c8')
+                    Triangle:
+                        points: [0,self.size[1],self.size[0],self.size[1],self.size[0],self.size[1]-(.4*self.size[1])]
+                Widget:
+                    size_hint_y: .25
+                Label:
+                    font_size: mtx.sp('134')
+                    markup:True
+                    color: rgba('#0e1574ff')
+                    size_hint_y: .3
+
+                Label:
+                    size_hint: 0.5, 0.15
+                    pos_hint: {'center_x': 0.45}
+                    text: 'Progress - View All Your Achievements'
+                    color: 0,255,255,1
+                    bold: True
+                TabbedPanel:
+                    do_default_tab: False
+                    TabbedPanelItem:
+                        text: 'Basic'
+                        WrappedLabel:
+                            text: 'Basic achievements'
+                            color: 0,255,255,1
+                            bold: True
+                    TabbedPanelItem:
+                        text: 'Challenge'
+                        WrappedLabel:
+                            text: 'Challenge achievements'
+                            color: 0,255,255,1
+                            bold: True
+                    TabbedPanelItem:
+                        text: 'Special'
+                        WrappedLabel:
+                            text: 'Coming soon!'
+                            color: 0,255,255,1
+                            bold: True
+                GridLayout:
+                    cols:2
+                    padding:25
+                    MDRoundFlatButton:
+                        size_hint: 0.9,0.3
+                        pos_hint: {'left':1,'bottom':1}
+                        text: 'MAIN MENU'
+                        color: 0,255,255,1
+                        bold: True
+                        on_release: root.manager.current = 'menu'
+                    MDRoundFlatButton:
+                        size_hint: 0.9,0.3
+                        pos_hint: {'left':1,'bottom':1}
+                        text: 'EXIT'
+                        color: 0,255,255,1
+                        bold: True
+                        on_release:exit()
+<ResultScreen>:
+    on_enter: root.calculate_result(app.sm.get_screen('game'))
+    ScreenManager:
+        Screen:
+            BoxLayout:
+                orientation: 'vertical'
+                canvas.before:
+                    Color:
+                        rgba: rgba('#0e1574ff')
+                    Triangle:
+                        points: [0,self.size[1],self.size[0],self.size[1],0,self.size[1]-(.4*self.size[1])]
+                    Color:
+                        rgba: rgba('#0e1574c8')
+                    Triangle:
+                        points: [0,self.size[1],self.size[0],self.size[1],self.size[0],self.size[1]-(.4*self.size[1])]
+                Widget:
+                    size_hint_y: .25
+                WrappedLabel:
+                    id: label_4
+                    font_size:50
+                    size_hint: 5, 5
+                    pos_hint: {'center_x': 0.35}
+                    text: 'Name'
+                    bold: True
+                    color:11,156,49,1
+                WrappedLabel:
+                    id: label_5
+                    font_size:50
+                    size_hint: 5, 5
+                    pos_hint: {'center_x': 0.45}
+                    text:'Score'
+                    bold: True
+                    color: 0,255,255,1
+                BoxLayout:
+                    size_hint: 0.5, 0.5
+                    pos_hint: {'center_x': 0.45}
+                    Image:
+                        id: star_1
+                        source: './data/star_grey.png'
+                    Image:
+                        id: star_2
+                        source: './data/star_grey.png'
+                    Image:
+                        id: star_3
+                        source: './data/star_grey.png'            
+                    Image:
+                        id: star_4
+                        source: './data/star_grey.png'            
+                    Image:
+                        id: star_5
+                        source: './data/star_grey.png'
+                WrappedLabel:
+                    id: label
+                    text: ' '
+                    bold: True
+                    color: 0,255,255,1
+                GridLayout:
+                    cols:2
+                    padding:25
+                    Button:
+                        background_normal: './data/normal.png'
+                        background_down: './data/down.png'
+                        size_hint: 0.5, 0.8
+                        pos_hint: {'left':1,'bottom':1}
+                        text: 'Back'
+                        bold: True
+                        color: 0,255,255,1
+                        on_release:                
+                            root.manager.current = 'menu'
+                    Button:
+                        background_normal: './data/normal.png'
+                        background_down: './data/down.png'
+                        size_hint: 0.5, 0.8
+                        pos_hint: {'right':1,'bottom':1}
+                        text: 'Exit'
+                        color: 0,255,255,1
+                        bold: True
+                        on_release: exit()
+<PopUpQuit>:
+    name:'bye'
+    size_hint: .5, .2
+    auto_dismiss: False
+    title: 'Quit current game?'
+    title_color: 0,0,0,1
+    BoxLayout:
+        padding: 10
+        Button:
+            text: 'No'
+            color: 0,255,255,1
+            bold: True
+            on_release: root.dismiss()
+        Button:
+            text: 'Yes'
+            color: 0,255,255,1
+            bold: True
+            on_release:
+                app.sm.current = 'menu'
+                root.dismiss()
+<HelpScreen>:
+    ScreenManager:
+        id:'c'
+        Screen:
+            name: 'scrn_signin'
+            BoxLayout:
+                orientation: 'vertical'
+                canvas.before:
+                    Color:
+                        rgba: rgba('#0e1574ff')
+                    Triangle:
+                        points: [0,self.size[1],self.size[0],self.size[1],0,self.size[1]-(.4*self.size[1])]
+                    Color:
+                        rgba: rgba('#0e1574c8')
+                    Triangle:
+                        points: [0,self.size[1],self.size[0],self.size[1],self.size[0],self.size[1]-(.4*self.size[1])]
+                WrappedLabel:
+                    size_hint: 0.5, 0.15
+                    pos_hint: {'center_x': 0.45}
+                    text: 'Help Screen'
+                WrappedLabel:
+                    text: root.help_text()
+                MDRoundFlatButton:
+                    size_hint: 0.5, 0.1
+                    pos_hint: {'center_x': 0.45}
+                    text: 'back'
+                    on_release:                 
+                        root.manager.current = 'menu'
+<AboutScreen>:
+    ScreenManager:
+        id:'c'
+        Screen:
+            name: 'scrn_signin'
+            BoxLayout:
+                orientation: 'vertical'
+                canvas.before:
+                    Color:
+                        rgba: rgba('#0e1574ff')
+                    Triangle:
+                        points: [0,self.size[1],self.size[0],self.size[1],0,self.size[1]-(.4*self.size[1])]
+                    Color:
+                        rgba: rgba('#0e1574c8')
+                    Triangle:
+                        points: [0,self.size[1],self.size[0],self.size[1],self.size[0],self.size[1]-(.4*self.size[1])]
+                WrappedLabel:
+                    size_hint: 0.15, 0.15
+                    pos_hint: {'center_x': 0.45}
+                    text: 'About'
+                    font_size: 30
+                WrappedLabel:
+                    text: root.about_text()
+                MDRoundFlatButton:
+                    size_hint: 0.9, None
+                    pos_hint: {'center_x': 0.45}
+                    text: 'back'
+                    on_release:             
+                        root.manager.current = 'menu'
+<CreateAccount>:
+    name:'create'
+
+    orientation: 'vertical'
+    canvas.before:
+        Color:
+            rgba: (1,1,1,1)
+        Rectangle:
+            pos:self.pos
+            size:self.size
+    ScreenManager:
+        Screen:
+            BoxLayout:
+                orientation: 'vertical'
+                canvas.before:
+                    Color:
+                        rgba: rgba('#0e1574ff')
+                    Triangle:
+                        points: [0,self.size[1],self.size[0],self.size[1],0,self.size[1]-(.4*self.size[1])]
+                    Color:
+                        rgba: rgba('#0e1574c8')
+                    Triangle:
+                        points: [0,self.size[1],self.size[0],self.size[1],self.size[0],self.size[1]-(.4*self.size[1])]
+                Widget:
+                    size_hint_y: .25
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: .45
+                    padding: [mtx.dp(20), 0]
+                    FlatInput:
+                        hint_text: 'NAME'
+                        bold:'True'
+                        size_hint_y: .2
+                    Widget:
+                        size_hint_y: .3
+                    FlatInput:
+                        hint_text: 'E-MAIL'
+                        bold:'True'
+                        size_hint_y: .2
+                    Widget:
+                        size_hint_y: .3
+                    FlatInput:
+                        hint_text:'PASSWORD'
+                        bold:'True'
+                        size_hint_y: .2
+                        password: True
+                    Widget:
+                        size_hint_y: .3
+                    GridLayout:
+                        cols:2
+                        padding:25
+                        MDRoundFlatButton:
+                            size_hint: 0.9,0.3
+                            pos_hint: {'left':1,'bottom':1}
+                            text: 'MAIN MENU'
+                            color: 0,255,255,1
+                            bold: True
+                            on_release: root.manager.current = 'menu'
+                        MDRoundFlatButton:
+                            size_hint: 0.9,0.3
+                            pos_hint: {'left':1,'bottom':1}
+                            text: 'BACK'
+                            color: 0,255,255,1
+                            bold: True
+                            on_release:
+                                root.manager.current = "signin"
+                                root.manager.transition.direction = "left"    
+                
